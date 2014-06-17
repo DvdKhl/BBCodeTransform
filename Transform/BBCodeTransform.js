@@ -332,7 +332,7 @@ var BBCode;
         BBCodeTags.U = new BBCode.BBCodeTagDefinition("u", false, function (tag, items) {
             console.log(items);
             var elem = document.createElement("span");
-            elem.style.textDecoration = "line-through";
+            elem.style.textDecoration = "underline";
 
             for (var i = 0; i < items.length; i++)
                 elem.appendChild(items[i]);
@@ -341,7 +341,7 @@ var BBCode;
         BBCodeTags.S = new BBCode.BBCodeTagDefinition("s", false, function (tag, items) {
             console.log(items);
             var elem = document.createElement("span");
-            elem.style.textDecoration = "underline";
+            elem.style.textDecoration = "line-through";
 
             for (var i = 0; i < items.length; i++)
                 elem.appendChild(items[i]);

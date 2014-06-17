@@ -306,7 +306,7 @@ module BBCode {
         static U = new BBCode.BBCodeTagDefinition("u", false, (tag, items) => {
             console.log(items);
             var elem = document.createElement("span");
-            elem.style.textDecoration = "line-through";
+            elem.style.textDecoration = "underline";
 
             for(var i = 0; i < items.length; i++) elem.appendChild(items[i]);
             return elem;
@@ -314,7 +314,7 @@ module BBCode {
         static S = new BBCode.BBCodeTagDefinition("s", false, (tag, items) => {
             console.log(items);
             var elem = document.createElement("span");
-            elem.style.textDecoration = "underline";
+            elem.style.textDecoration = "line-through";
 
             for(var i = 0; i < items.length; i++) elem.appendChild(items[i]);
             return elem;

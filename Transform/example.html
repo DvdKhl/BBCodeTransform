@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="demo">
+<head>
+  <title>BBCode Transform Example</title>
+
+  <style>
+    body {
+      font-size: 12px;
+      font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
+    }
+
+    span.i_icon_smiley_happy {
+      /* http://simplesmileys.org/ */
+      display: inline-block;
+      background-image: url(data:image/png;base64,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);
+      width: 15px;
+      height: 15px;
+    }
+
+    div, img, pre {
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+    }
+
+    .image-overlay {
+      background-color: rgba(0, 0, 0, 0.52);
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 10;
+      text-align: center;
+    }
+
+    .image-overlay {
+      max-width: 100%;
+    }
+
+    .hide {
+      display: none;
+    }
+  </style>
+
+  <script src="ThirdParty/AngularJs/angular.min.js"></script>
+  <script src="BBCodeTransform.js"></script>
+  <script>
+    var demo = angular.module("demo", ["bbCode"]);
+    demo.controller("ctrl", function ($scope) {
+
+      $scope.bbCodeSrc =
+        "Basic:\n" +
+        "[i]italic[/i] [b]bold[/b] [s]strikethrough[/s]\n" +
+        "[u]underline[/u] [url=google.com title=google]google.com[/url]\n" +
+        "\n" +
+        "Nesting:\n" +
+        "00[b]AA[i]BB[s]CC[u]DD[url=google.com title=google]URL[/url]DD[/u]CC[/s]BB[/i]AA[/b]00\n" +
+        "[url=google.com title=google]00[b]AA[i]BB[s]CC[u]DD[/u]CC[/s]BB[/i]AA[/b]00[/url]\n" +
+        "\n" +
+        "Click me:\n" +
+        "[img=http://i.imgur.com/KAVjr8b.jpg title=TestImage width=200]\n" +
+        "\n" +
+        "Invalid and misformed bbcode:\n" +
+        "[Invalid][B][][/Invalid2][[[B]BOLD[/B]][b]This one still works[/b]\n" +
+        "\n" +
+        "[spoiler]Some hidden text[/spoiler]\n" +
+        "\n" +
+        "It is easy to implement your own BBCode tags:\n" +
+        "[pre]new BBCode.BBCodeTagDefinition('pre', false,\n" +
+        "(tag, items) => {\n" +
+        "    var elem = document.createElement('pre');\n" +
+        "    for(var i = 0; i < items.length; i++) elem.appendChild(items[i]);\n" +
+        "    return elem;\n" +
+        "},\n" +
+        "(rules) => {\n" +
+        "    rules.maySubstitute = false;\n" +
+        "    rules.mayParseNewTags = false;\n" +
+        "    rules.mayReplaceNewLinesWithBr = false;\n" +
+        "});[/pre]\n" +
+        "\n" +
+        "Substitutions: BBCodeProject\n" +
+        "Substitutions Code:\n" +
+        "[pre]$scope.transform.SetSubstitutions([\n" +
+        "  { match: ':)', replacement: function () { return makeSmiley('happy', 'happy'); } },\n" +
+        "  {\n" +
+        "    match: 'BBCodeProject', replacement: function () {\n" +
+        "      var elem = document.createElement('a');\n" +
+        "      elem.href = 'https://github.com/DvdKhl/BBCodeTransform';\n" +
+        "      elem.text = 'BBCodeTransform';\n" +
+        "      return elem;\n" +
+        "    }\n" +
+        "  }\n" +
+        "]);\n" +
+        "[/pre]\n" +
+        "\n" +
+        "[b]If[/b] you're using AngularJS, you can use the [pre]bbcode-document[/pre] directive to easily bind the BBCode to your view.\n" +
+        "View the source of this page to get an example.\n" +
+        "\n" +
+        "That's All Folks :)";
+
+      var makeSmiley = function (title, className) {
+        var elem = document.createElement("span");
+        elem.className = "i_icon i_icon_smiley_" + className;
+        elem.title = title;
+        return elem;
+      }
+
+      var bbCodeTags = [BBCode.BBCodeTags.B, BBCode.BBCodeTags.I, BBCode.BBCodeTags.S, BBCode.BBCodeTags.U, BBCode.BBCodeTags.Url, BBCode.BBCodeTags.Img, BBCode.BBCodeTags.Spoiler, BBCode.BBCodeTags.Pre];
+      var preprocessor = function (source) { return source ? source.replace(/<br \/>/g, "[linebreak]") : ""; };
+
+      $scope.transform = new BBCode.BBCodeTransform();
+      $scope.transform.SetPreprocessor(preprocessor);
+      $scope.transform.SetTagDefinitions(bbCodeTags);
+      $scope.transform.SetSubstitutions([
+        { match: ":)", replacement: function () { return makeSmiley("happy", "happy"); } },
+        {
+          match: "BBCodeProject", replacement: function () {
+            var elem = document.createElement("a");
+            elem.href = "https://github.com/DvdKhl/BBCodeTransform";
+            elem.text = "BBCodeTransform";
+            return elem;
+          }
+        }
+      ]);
+    });
+  </script>
+</head>
+<body ng-controller="ctrl">
+  <div style="display: flex; flex-direction: row-reverse">
+    <div style="overflow-y: auto; flex-grow: 1">
+      <bbcode-document source="bbCodeSrc" transform="transform"></bbcode-document>
+    </div>
+    <textarea spellcheck="false" cols="90" rows="60" ng-model="bbCodeSrc" ng-model-options="{debounce: 400}"></textarea>
+  </div>
+</body>
+</html>

@@ -391,31 +391,30 @@ module BBCode {
             return containerElem;
         });
     }
+
+    export function Register(angular: ng.IAngularStatic) {
+        if(!angular) return;
+
+        var bbCodeModule = angular.module("bbCode", []);
+
+
+        bbCodeModule.directive('bbcodeDocument', function() {
+            return {
+                restrict: 'E',
+                replace: true,
+                scope: { source: "=", transform: "=" },
+                link: ($scope, element: JQuery, attr) => {
+                    var unregister = $scope.$watch('source', function(newValue) {
+                        element.empty();
+                        if(!$scope.transform) return;
+
+                        $scope.source = $scope.source || "";
+                        element.append($scope.transform.ToHtml($scope.source));
+                    });
+                }
+            };
+        });
+    }
 }
 
-((angular: ng.IAngularStatic) => {
-    if(!angular) return;
-
-    var bbCodeModule = angular.module("bbCode", []);
-
-
-    bbCodeModule.directive('bbcodeDocument', function() {
-        return {
-            restrict: 'E',
-            replace: true,
-            scope: { source: "=", transform: "=" },
-            link: ($scope, element: JQuery, attr) => {
-                var unregister = $scope.$watch('source', function(newValue) {
-                    element.empty();
-                    if(!$scope.transform) return;
-
-                    $scope.source = $scope.source || "";
-                    element.append($scope.transform.ToHtml($scope.source));
-                });
-            }
-        };
-    });
-
-
-})(angular);
-
+BBCode.Register(angular);

@@ -426,30 +426,33 @@ var BBCode;
         return BBCodeTags;
     })();
     BBCode.BBCodeTags = BBCodeTags;
+
+    function Register(angular) {
+        if (!angular)
+            return;
+
+        var bbCodeModule = angular.module("bbCode", []);
+
+        bbCodeModule.directive('bbcodeDocument', function () {
+            return {
+                restrict: 'E',
+                replace: true,
+                scope: { source: "=", transform: "=" },
+                link: function ($scope, element, attr) {
+                    var unregister = $scope.$watch('source', function (newValue) {
+                        element.empty();
+                        if (!$scope.transform)
+                            return;
+
+                        $scope.source = $scope.source || "";
+                        element.append($scope.transform.ToHtml($scope.source));
+                    });
+                }
+            };
+        });
+    }
+    BBCode.Register = Register;
 })(BBCode || (BBCode = {}));
 
-(function (angular) {
-    if (!angular)
-        return;
-
-    var bbCodeModule = angular.module("bbCode", []);
-
-    bbCodeModule.directive('bbcodeDocument', function () {
-        return {
-            restrict: 'E',
-            replace: true,
-            scope: { source: "=", transform: "=" },
-            link: function ($scope, element, attr) {
-                var unregister = $scope.$watch('source', function (newValue) {
-                    element.empty();
-                    if (!$scope.transform)
-                        return;
-
-                    $scope.source = $scope.source || "";
-                    element.append($scope.transform.ToHtml($scope.source));
-                });
-            }
-        };
-    });
-})(angular);
+BBCode.Register(angular);
 //# sourceMappingURL=BBCodeTransform.js.map

@@ -88,18 +88,18 @@ var BBCode;
                         var name = this.parseName();
                         if (this.source[this.position] != "]") {
                             //No closing tag: Backtrack
-                            console.log("No closing tag backtracking to " + backtrackPosition);
+                            //console.log("No closing tag backtracking to " + backtrackPosition);
                             this.position = backtrackPosition;
                         } else if (this.tagStack.length != 0 && name == this.tagStack[0].Name) {
                             //Is matching closing tag
-                            console.log("Closing tag: " + name);
+                            //console.log("Closing tag: " + name);
                             this.parseText(textStartPosition, textEndPosition, items);
                             backtrackPosition = textStartPosition = ++this.position;
                             this.tagStack.shift();
                             break;
                         } else {
                             //Is wrong closing tag: Backtrack
-                            console.log("Wrong closing tag(" + name + ") Backtracking to " + backtrackPosition);
+                            //console.log("Wrong closing tag(" + name + ") Backtracking to " + backtrackPosition);
                             this.position = backtrackPosition;
                         }
                     } else if (this.rules.mayParseNewTags) {
@@ -109,7 +109,7 @@ var BBCode;
 
                         if (tagDefinition != null) {
                             //Is opening Tag
-                            console.log("Opening tag: " + tag.Name);
+                            //console.log("Opening tag: " + tag.Name);
                             this.parseText(textStartPosition, textEndPosition, items);
                             backtrackPosition = textStartPosition = this.position;
 
@@ -131,7 +131,7 @@ var BBCode;
                             }
                         } else {
                             //No opening Tag: Backtrack
-                            console.log("No opening tag backtracking to " + backtrackPosition);
+                            //console.log("No opening tag backtracking to " + backtrackPosition);
                             this.position = backtrackPosition;
                         }
                     } else
@@ -306,7 +306,7 @@ var BBCode;
         function BBCodeTags() {
         }
         BBCodeTags.Pre = new BBCode.BBCodeTagDefinition("pre", false, function (tag, items) {
-            console.log(items);
+            //console.log(items);
             var elem = document.createElement("pre");
             for (var i = 0; i < items.length; i++)
                 elem.appendChild(items[i]);
@@ -316,21 +316,21 @@ var BBCode;
         });
 
         BBCodeTags.B = new BBCode.BBCodeTagDefinition("b", false, function (tag, items) {
-            console.log(items);
+            //console.log(items);
             var elem = document.createElement("b");
             for (var i = 0; i < items.length; i++)
                 elem.appendChild(items[i]);
             return elem;
         });
         BBCodeTags.I = new BBCode.BBCodeTagDefinition("i", false, function (tag, items) {
-            console.log(items);
+            //console.log(items);
             var elem = document.createElement("i");
             for (var i = 0; i < items.length; i++)
                 elem.appendChild(items[i]);
             return elem;
         });
         BBCodeTags.U = new BBCode.BBCodeTagDefinition("u", false, function (tag, items) {
-            console.log(items);
+            //console.log(items);
             var elem = document.createElement("span");
             elem.style.textDecoration = "underline";
 
@@ -339,7 +339,7 @@ var BBCode;
             return elem;
         });
         BBCodeTags.S = new BBCode.BBCodeTagDefinition("s", false, function (tag, items) {
-            console.log(items);
+            //console.log(items);
             var elem = document.createElement("span");
             elem.style.textDecoration = "line-through";
 
@@ -348,7 +348,7 @@ var BBCode;
             return elem;
         });
         BBCodeTags.Url = new BBCode.BBCodeTagDefinition("url", false, function (tag, items) {
-            console.log(items);
+            //console.log(items);
             var elem = document.createElement("a");
             elem.href = tag.Value;
 
@@ -361,8 +361,7 @@ var BBCode;
             return elem;
         });
         BBCodeTags.Spoiler = new BBCode.BBCodeTagDefinition("spoiler", false, function (tag, items) {
-            console.log(items);
-
+            //console.log(items);
             var spanElem = document.createElement("span");
             spanElem.classList.add("spoiler");
             spanElem.classList.add("hide");
@@ -385,7 +384,7 @@ var BBCode;
             return containerElem;
         });
         BBCodeTags.Img = new BBCode.BBCodeTagDefinition("img", true, function (tag, items) {
-            console.log(items);
+            //console.log(items);
             var imgElem = document.createElement("img");
             imgElem.src = tag.Value;
 
@@ -437,7 +436,7 @@ var BBCode;
             return {
                 restrict: 'E',
                 replace: true,
-                scope: { source: "=", transform: "=" },
+                scope: { source: "=", transform: "=", debug: "=" },
                 link: function ($scope, element, attr) {
                     var unregister = $scope.$watch('source', function (newValue) {
                         element.empty();
@@ -445,7 +444,14 @@ var BBCode;
                             return;
 
                         $scope.source = $scope.source || "";
-                        element.append($scope.transform.ToHtml($scope.source));
+
+                        var start = window.performance.now();
+                        var bbcodeElem = $scope.transform.ToHtml($scope.source);
+                        var elapsed = window.performance.now() - start;
+
+                        element.append(bbcodeElem);
+                        if ($scope.debug == true)
+                            element.append("<br>Elapsed: " + elapsed + "ms");
                     });
                 }
             };

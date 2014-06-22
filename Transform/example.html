@@ -129,7 +129,7 @@
 <body ng-controller="ctrl">
   <div style="display: flex; flex-direction: row-reverse">
     <div style="overflow-y: auto; flex-grow: 1">
-      <bbcode-document source="bbCodeSrc" transform="transform"></bbcode-document>
+      <bbcode-document source="bbCodeSrc" transform="transform" debug="true"></bbcode-document>
     </div>
     <textarea spellcheck="false" cols="90" rows="60" ng-model="bbCodeSrc" ng-model-options="{debounce: 400}"></textarea>
   </div>

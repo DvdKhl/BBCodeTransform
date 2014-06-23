@@ -428,9 +428,6 @@ var BBCode;
     BBCode.Tags = Tags;
 
     function Register(angular) {
-        if (!angular)
-            return;
-
         var bbCodeModule = angular.module("bbCode", []);
 
         bbCodeModule.directive('bbcodeDocument', function () {

@@ -59,7 +59,6 @@ var BBCode;
 
             if (this.preprocessor)
                 this.source = this.preprocessor(this.source);
-            this.source = this.source.replace(/\r\n?/g, "\n");
 
             var items = this.parse();
             this.parseText(this.position, this.source.length, items);
@@ -302,34 +301,36 @@ var BBCode;
         return BBCodeTagDefinition;
     })();
     BBCode.BBCodeTagDefinition = BBCodeTagDefinition;
-    var BBCodeTags = (function () {
-        function BBCodeTags() {
+    var Tags = (function () {
+        function Tags() {
         }
-        BBCodeTags.Pre = new BBCode.BBCodeTagDefinition("pre", false, function (tag, items) {
+        Tags.Pre = new BBCode.BBCodeTagDefinition("pre", false, function (tag, items) {
             //console.log(items);
             var elem = document.createElement("pre");
             for (var i = 0; i < items.length; i++)
                 elem.appendChild(items[i]);
             return elem;
         }, function (rules) {
-            rules.maySubstitute = rules.mayParseNewTags = rules.mayReplaceNewLinesWithBr = false;
+            rules.maySubstitute = false;
+            rules.mayParseNewTags = false;
+            rules.mayReplaceNewLinesWithBr = false;
         });
 
-        BBCodeTags.B = new BBCode.BBCodeTagDefinition("b", false, function (tag, items) {
+        Tags.B = new BBCode.BBCodeTagDefinition("b", false, function (tag, items) {
             //console.log(items);
             var elem = document.createElement("b");
             for (var i = 0; i < items.length; i++)
                 elem.appendChild(items[i]);
             return elem;
         });
-        BBCodeTags.I = new BBCode.BBCodeTagDefinition("i", false, function (tag, items) {
+        Tags.I = new BBCode.BBCodeTagDefinition("i", false, function (tag, items) {
             //console.log(items);
             var elem = document.createElement("i");
             for (var i = 0; i < items.length; i++)
                 elem.appendChild(items[i]);
             return elem;
         });
-        BBCodeTags.U = new BBCode.BBCodeTagDefinition("u", false, function (tag, items) {
+        Tags.U = new BBCode.BBCodeTagDefinition("u", false, function (tag, items) {
             //console.log(items);
             var elem = document.createElement("span");
             elem.style.textDecoration = "underline";
@@ -338,7 +339,7 @@ var BBCode;
                 elem.appendChild(items[i]);
             return elem;
         });
-        BBCodeTags.S = new BBCode.BBCodeTagDefinition("s", false, function (tag, items) {
+        Tags.S = new BBCode.BBCodeTagDefinition("s", false, function (tag, items) {
             //console.log(items);
             var elem = document.createElement("span");
             elem.style.textDecoration = "line-through";
@@ -347,7 +348,7 @@ var BBCode;
                 elem.appendChild(items[i]);
             return elem;
         });
-        BBCodeTags.Url = new BBCode.BBCodeTagDefinition("url", false, function (tag, items) {
+        Tags.Url = new BBCode.BBCodeTagDefinition("url", false, function (tag, items) {
             //console.log(items);
             var elem = document.createElement("a");
             elem.href = tag.Value;
@@ -360,7 +361,7 @@ var BBCode;
                 elem.appendChild(items[i]);
             return elem;
         });
-        BBCodeTags.Spoiler = new BBCode.BBCodeTagDefinition("spoiler", false, function (tag, items) {
+        Tags.Spoiler = new BBCode.BBCodeTagDefinition("spoiler", false, function (tag, items) {
             //console.log(items);
             var spanElem = document.createElement("span");
             spanElem.classList.add("spoiler");
@@ -383,7 +384,7 @@ var BBCode;
 
             return containerElem;
         });
-        BBCodeTags.Img = new BBCode.BBCodeTagDefinition("img", true, function (tag, items) {
+        Tags.Img = new BBCode.BBCodeTagDefinition("img", true, function (tag, items) {
             //console.log(items);
             var imgElem = document.createElement("img");
             imgElem.src = tag.Value;
@@ -422,9 +423,9 @@ var BBCode;
 
             return containerElem;
         });
-        return BBCodeTags;
+        return Tags;
     })();
-    BBCode.BBCodeTags = BBCodeTags;
+    BBCode.Tags = Tags;
 
     function Register(angular) {
         if (!angular)
@@ -449,9 +450,9 @@ var BBCode;
                         var bbcodeElem = $scope.transform.ToHtml($scope.source);
                         var elapsed = window.performance.now() - start;
 
-                        element.append(bbcodeElem);
                         if ($scope.debug == true)
-                            element.append("<br>Elapsed: " + elapsed + "ms");
+                            element.append("Elapsed: " + elapsed + "ms<br>");
+                        element.append(bbcodeElem);
                     });
                 }
             };
@@ -460,5 +461,6 @@ var BBCode;
     BBCode.Register = Register;
 })(BBCode || (BBCode = {}));
 
-BBCode.Register(angular);
+if (window["angular"])
+    BBCode.Register(angular);
 //# sourceMappingURL=BBCodeTransform.js.map

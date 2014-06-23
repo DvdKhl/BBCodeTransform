@@ -106,12 +106,11 @@
         return elem;
       }
 
-      var bbCodeTags = [BBCode.BBCodeTags.B, BBCode.BBCodeTags.I, BBCode.BBCodeTags.S, BBCode.BBCodeTags.U, BBCode.BBCodeTags.Url, BBCode.BBCodeTags.Img, BBCode.BBCodeTags.Spoiler, BBCode.BBCodeTags.Pre];
-      var preprocessor = function (source) { return source ? source.replace(/<br \/>/g, "[linebreak]") : ""; };
-
       $scope.transform = new BBCode.BBCodeTransform();
-      $scope.transform.SetPreprocessor(preprocessor);
-      $scope.transform.SetTagDefinitions(bbCodeTags);
+      $scope.transform.SetTagDefinitions([
+        BBCode.Tags.B, BBCode.Tags.I, BBCode.Tags.S, BBCode.Tags.U,
+        BBCode.Tags.Url, BBCode.Tags.Img, BBCode.Tags.Spoiler, BBCode.Tags.Pre
+      ]);
       $scope.transform.SetSubstitutions([
         { match: ":)", replacement: function () { return makeSmiley("happy", "happy"); } },
         {

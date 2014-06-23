@@ -59,7 +59,6 @@ module BBCode {
             this.source = source;
 
             if(this.preprocessor) this.source = this.preprocessor(this.source);
-            this.source = this.source.replace(/\r\n?/g, "\n");
 
             var items = this.parse();
             this.parseText(this.position, this.source.length, items);
@@ -283,13 +282,21 @@ module BBCode {
             this.onTag = onTag || null;
         }
     }
-    export class BBCodeTags {
-        static Pre = new BBCode.BBCodeTagDefinition("pre", false, (tag, items) => {
-            //console.log(items);
-            var elem = document.createElement("pre");
-            for(var i = 0; i < items.length; i++) elem.appendChild(items[i]);
-            return elem;
-        }, (rules) => { rules.maySubstitute = rules.mayParseNewTags = rules.mayReplaceNewLinesWithBr = false; });
+    export class Tags {
+        static Pre = new BBCode.BBCodeTagDefinition(
+            "pre", false,
+            (tag, items) => {
+                //console.log(items);
+                var elem = document.createElement("pre");
+                for(var i = 0; i < items.length; i++) elem.appendChild(items[i]);
+                return elem;
+            },
+            (rules) => {
+                rules.maySubstitute = false;
+                rules.mayParseNewTags = false;
+                rules.mayReplaceNewLinesWithBr = false;
+            }
+         );
 
         static B = new BBCode.BBCodeTagDefinition("b", false, (tag, items) => {
             //console.log(items);
@@ -393,8 +400,6 @@ module BBCode {
     }
 
     export function Register(angular: ng.IAngularStatic) {
-        if(!angular) return;
-
         var bbCodeModule = angular.module("bbCode", []);
 
 
@@ -414,8 +419,8 @@ module BBCode {
                         var bbcodeElem = $scope.transform.ToHtml($scope.source);
                         var elapsed = window.performance.now() - start;
 
+                        if($scope.debug == true) element.append("Elapsed: " + elapsed + "ms<br>");
                         element.append(bbcodeElem);
-                        if($scope.debug == true) element.append("<br>Elapsed: " + elapsed + "ms");
                     });
                 }
             };
@@ -423,4 +428,4 @@ module BBCode {
     }
 }
 
-BBCode.Register(angular);
+if(window["angular"]) BBCode.Register(angular);

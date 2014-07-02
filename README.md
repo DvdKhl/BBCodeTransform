@@ -11,7 +11,7 @@ Since the HTMLElements are supplied and not a string, it is *easy to add TypeScr
 **Rules:** Before the content of a tag is parsed *each tag is asked to set their parsing rules* which include `maySubstitute, mayParseNewTags, mayReplaceNewLinesWithBr` to more finely control the parsing behavior to allow the implementation of for example *code* tags. After the tag is fully processed the parsing rules are reverted to its previous state automatically.  
 **Performance:** BBCodeTransform should be close to the fastest ones out there (No regex or string concatenation is used for parsing and substitutions are done using a trie) under the condition that you want Html Elements as output. If on the other hand you're only interested in the resulting *html string* and are not planning to add it to the Dom (e.g. setting `innerHTML`) other libraries may outperform it by orders of magnitude.  
 *To put things into perspective:* Transforming and displaying 64kb of bbcode takes around 60ms with BBCodeTransform. While other parsers which output html as a string may take several hundred ms to do the same, but may take a lot less than 10ms if the string isn't added to the Dom.  
-Still in most cases any implementation is fast enough so performance shoudn't be an issue.
+Still in most cases any implementation is fast enough so performance shouldn't be an issue.
 
 ##Usage##
 ####Instance creation and setup####

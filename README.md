@@ -1,8 +1,8 @@
-#BBCodeTransform#
+# BBCodeTransform
 Demo page: http://dvdkhl.github.io/BBCodeTransform/
 
 
-##What does BBCodeTransform try to achieve?##
+## What does BBCodeTransform try to achieve?
 BBCodeTransform is a TypeScript/JavaScript BBCode to Html transformer that *does not depend any required external frameworks*. It aims to be easily extendable, giving various possibilities to add new bbcode tags and substitutions (e.g. smilies).  
 **Usage:** Transforming BBCode into Html is simply done by creating an instance, specifying the BBCode Tags/Substitutions that should be used and then calling `.ToHtml(bbCodeSrc)` on the instance. The output will be a HTMLDivElement.  
 **Tag Parameters:** Besides the traditional `[tagName=tagValue]` tags, BBCodeTransform also supports additional parameters in the form of `[tagName=tagValue paramName1=paramValue1 paramName2=paramValue2 ...]` allowing for more feature rich tags.  
@@ -13,8 +13,8 @@ Since the HTMLElements are supplied and not a string, it is *easy to add TypeScr
 *To put things into perspective:* Transforming and displaying 64kb of bbcode takes around 60ms with BBCodeTransform. While other parsers which output html as a string may take several hundred ms to do the same, but may take a lot less than 10ms if the string isn't added to the Dom.  
 Still in most cases any implementation is fast enough so performance shouldn't be an issue.
 
-##Usage##
-####Instance creation and setup####
+## Usage
+#### Instance creation and setup
 ```typescript
 var transform = new BBCode.BBCodeTransform();
 transform.SetTagDefinitions([
@@ -37,7 +37,7 @@ Some predefined tags already come with BBCodeTransform and are used in the code 
 The `transform.SetSubstitutions` can be used to pass an array of substitution rules which was mainly introduced to support smilies but can also be used for different purposes (e.g. replacing keywords with something else).  
 After this setup a single call to `transform.ToHtml(bbCode)` will transform the bbcode and output an Html (Div) Element, ready to be added to the Dom.
 
-####Custom BBCodeTags####
+#### Custom BBCodeTags
 To create new Tags a new instance of BBCodeTagDefinition needs to be created:
 ```typescript
 constructor(
@@ -119,16 +119,16 @@ new BBCode.BBCodeTagDefinition("img", true, (tag, items) => {
 })
 ```
 
-####Adding Substitutions (Smilies)####
+#### Adding Substitutions (Smilies)
 To add substitutions you simple need to create an array of the fowllowing format:  
 `{match: "matchString", replacement: function() { /*Code returning an HTML Element*/ }}`  
 If an exact match with the value of "match" is found the callback is called which must return an HTML Element.
 The HTML Element is then used to replace the matched text.
 
-####AngularJs####
+#### AngularJs
 If AngularJs is available, BBCodeTransform will register a module with a directive called `bbcodeDocument`, which allows for simple binding between the BBCode and the view.
 
-####TODO:####
+#### TODO:
 - [ ] Maybe: Substitutions with parameters (e.g. Item{Id=100})
 - [ ] More parsing rules
 
